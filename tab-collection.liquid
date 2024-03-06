@@ -1,0 +1,108 @@
+<style>
+  /* start tabs style */
+  .tabs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+  }
+
+  .tabs li {
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  .active-tab {
+    background-color: red;
+  }
+  /* end tabs style */
+</style>
+
+<div class="tabs_section_main_wrapper">
+  <ul class="tabs">
+    {% for block in section.blocks %}
+      <li>
+        <a href="#" data-tab="tab-{{ forloop.index }}">{{ block.settings.tab_title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  {% for block in section.blocks %}
+    <div id="tab-{{ forloop.index }}" class="tab-content">
+      {% for product in block.settings.collection.products %}
+        <p>{{ product.title }}</p>
+      {% endfor %}
+    </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "Practic tabs Collection",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "tabs",
+      "name": "Tabs Content",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_title",
+          "label": "Tabs Heading"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Practic tabs Collection",
+      "settings": {},
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}
+<script>
+  // Get all tab buttons
+  var tabButtons = document.querySelectorAll('.tabs li a');
+
+  // Add click event listener to each tab button
+  tabButtons.forEach(function (button) {
+    button.addEventListener('click', function (event) {
+      event.preventDefault();
+      var tabId = button.getAttribute('data-tab');
+      showTab(tabId, button);
+    });
+  });
+
+  // Show the first tab by default
+  showTab('tab-1', tabButtons[0]);
+
+  function showTab(tabId, tabButton) {
+    // Hide all tab contents
+    var tabContents = document.querySelectorAll('.tab-content');
+    tabContents.forEach(function (content) {
+      content.style.display = 'none';
+    });
+
+    // Remove active class from all tabs
+    tabButtons.forEach(function (button) {
+      button.parentElement.classList.remove('active-tab');
+    });
+
+    // Show the selected tab content
+    document.getElementById(tabId).style.display = 'block';
+
+    // Add active class to the clicked tab button
+    tabButton.parentElement.classList.add('active-tab');
+  }
+</script>
