@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .tabs {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        .tabs li {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .active-tab {
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="tabs_section_main_wrapper">
+        <ul class="tabs">
+            <li><a href="#" data-tab="tab-1">Info</a></li>
+            <li><a href="#" data-tab="tab-2">Shipping</a></li>
+            <li><a href="#" data-tab="tab-3">Returns</a></li>
+        </ul>
+        <div id="tab-1" class="tab-content">
+            Info content
+        </div>
+        <div id="tab-2" class="tab-content">
+            Shipping content
+        </div>
+        <div id="tab-3" class="tab-content">
+           Returns content
+        </div>
+    </div>
+
+    <script>
+        // Get all tab buttons
+        var tabButtons = document.querySelectorAll('.tabs li a');
+
+        // Add click event listener to each tab button
+        tabButtons.forEach(function (button) {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                var tabId = button.getAttribute('data-tab');
+                showTab(tabId, button);
+            });
+        });
+
+        // Show the first tab by default
+        showTab('tab-1', tabButtons[0]);
+
+        function showTab(tabId, tabButton) {
+            // Hide all tab contents
+            var tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(function (content) {
+                content.style.display = 'none';
+            });
+
+            // Remove active class from all tabs
+            tabButtons.forEach(function (button) {
+                button.parentElement.classList.remove('active-tab');
+            });
+
+            // Show the selected tab content
+            document.getElementById(tabId).style.display = 'block';
+
+            // Add active class to the clicked tab button
+            tabButton.parentElement.classList.add('active-tab');
+        }
+    </script>
+
+</body>
+
+</html>
